@@ -47,6 +47,29 @@ def partone(filename):
 
 def parttwo(filename):
     ranges = getranges(filename)
+    answer = 0
+
+    for r in ranges:
+        startvalue = int(r.split("-")[0])
+        endvalue = int(r.split("-")[1])
+        for i in range(startvalue, endvalue+1):
+            num = str(i)
+            numlength = len(num)
+            midpoint = int(numlength/2)
+            for j in range(1, midpoint+1):
+                # j = segment size
+                segment = num[:j]
+                allsame = True
+                for k in range(j, numlength, j):
+                    if segment != num[k:k+j]:
+                        allsame = False
+                        break
+        
+                if allsame:
+                    answer += i
+                    break
+
+    print(f"Sum of invalid ids is {answer}.")
 
 def main(argc, argv):
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
