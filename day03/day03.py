@@ -20,31 +20,13 @@ def partone(filename):
             for i in range(maxbatindex1+1, len(bank)):
                 if bank[i] > bank[maxbatindex2]:
                     maxbatindex2 = i
-                    
+
             totaljoltage += int(bank[maxbatindex1]+bank[maxbatindex2])
 
     print(f"Total joltage output is {totaljoltage}.")
 
 def parttwo(filename):
     pass
-
-def test():
-    bank = ['9', '8', '7', '6', '5', '4', '3', '2', '1', '1', '1', '1', '1', '1', '1']
-    maxbatindex1 = 0
-    maxbatindex2 = 1
-    for i in range(len(bank)-1):
-        if bank[i] > bank[maxbatindex1]:
-            maxbatindex1 = i
-
-    for i in range(maxbatindex1+1, len(bank)):
-        print(i)
-        if bank[i] > bank[maxbatindex2]:
-            maxbatindex2 = i
-
-    print(bank)
-    print(list(range(maxbatindex1+1, len(bank))))
-    print(f"{maxbatindex1} {maxbatindex2}")
-    print(bank[maxbatindex1] + bank[maxbatindex2])
 
 def main(argc, argv):
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
