@@ -1,5 +1,6 @@
 import sys
 import os
+import copy
 
 EMPTY = "."
 ROLL = "@"
@@ -18,6 +19,14 @@ def getfloor(filename):
             floor.append(row)
 
     return floor
+
+def printfloor(floor):
+    for i in range(len(floor)):
+        line = ""
+        for j in range(len(floor[i])):
+            line += floor[i][j]
+        print(line)
+    print() # New line at end
 
 def checkneighbours(floor, row, col):
     neighbours = 0
@@ -52,8 +61,33 @@ def partone(filename):
 
     print(f"Number of rolls accessible by forklift is {rolls}.")
 
+def removerolls(floor):
+    rollsremoved = 0
+    floorcopy = copy.deepcopy(floor)
+
+    for i in range(len(floorcopy)):
+        for j in range(len(floorcopy[i])):
+            if floorcopy[i][j] == EMPTY:
+                continue
+            elif floorcopy[i][j] == ROLL:
+                if checkneighbours(floorcopy, i, j) < 4:
+                    floor[i][j] = EMPTY
+                    rollsremoved += 1
+
+    return rollsremoved
+
 def parttwo(filename):
-    pass
+    rolls = 0
+    floor = getfloor(filename)
+
+    while True:
+        rollsremoved = removerolls(floor)
+        if rollsremoved:
+            rolls += rollsremoved
+        else:
+            break
+
+    print(f"Number of rolls accessible by forklift is {rolls}.")
 
 def test():
     pass
