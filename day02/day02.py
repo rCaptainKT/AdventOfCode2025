@@ -79,7 +79,7 @@ def main(argc, argv):
 if __name__ == "__main__":
     argc = len(sys.argv)
     if argc < 2:
-        print(f"Usage: ./day02.py [input]")
+        print(f"Usage: python3 day02.py [input]")
         sys.exit()
 
     main(argc, sys.argv)
