@@ -25,8 +25,38 @@ def partone(filename):
 
     print(f"Total joltage output is {totaljoltage}.")
 
+def _findlargest(bank, start, digitsleft):
+    if digitsleft == 0:
+        return ""
+
+    maxbatindex = start
+    for i in range(start, len(bank)-digitsleft+1):
+        if bank[i] > bank[maxbatindex]:
+            maxbatindex = i
+
+    return bank[maxbatindex] + _findlargest(bank, maxbatindex+1, digitsleft-1)
+
+def findlargest(bank, digitsleft):
+    return _findlargest(bank, 0, digitsleft)
+
 def parttwo(filename):
-    pass
+    totaljoltage = 0
+
+    with open(filename) as file:
+        while True:    
+            line = file.readline().strip()
+            if not line:
+                break
+
+            bank = list(line)
+            totaljoltage += int(findlargest(bank, 12))
+    
+    print(f"Total joltage output is {totaljoltage}.")
+
+def test():
+    bankstr = "811111111111119"
+    bank = list(bankstr)
+    print(findlargest(bank, 2))
 
 def main(argc, argv):
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
