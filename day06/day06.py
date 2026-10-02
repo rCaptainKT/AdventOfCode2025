@@ -61,8 +61,84 @@ def partone(filename):
     answers = getanswers(filename, operators)
     print(f"The grand total is {sum(answers)}.")
 
+def getrowlength(filename):
+    length = 0
+    with open(filename) as file:
+        while True:
+            char = file.read(1)
+            length += 1
+            if char == "\n":
+                break
+
+    return length
+
+def getrowcount(filename):
+    rowcount = 0
+
+    with open(filename) as file:
+        while True:
+            char = file.read(1)
+            if char == "\n":
+                rowcount += 1
+            elif char == "+" or char == "*":
+                rowcount += 1
+                break
+    
+    return rowcount
+
+def getchar(filename, rowlength, row, col):
+    char = ""
+
+    with open(filename) as file:
+        for _ in range(rowlength*row+col):
+            file.read(1)
+        char = file.read(1)
+
+    return char
+
+def liststrtoint(l):
+    for i in range(len(l)):
+        l[i] = int(l[i])
+
+def listoperation(nums, operator):
+    answer = 0
+    match operator:
+        case "+":
+            for num in nums:
+                answer += num
+        case "*":
+            answer += 1
+            for num in nums:
+                answer *= num
+        case _:
+            raise ValueError(f"Unknown operator: {operator}")
+
+    return answer
+
 def parttwo(filename):
-    pass
+    rowlength = getrowlength(filename)
+    rowcount = getrowcount(filename)
+
+    i = rowlength-2
+    nums = list()
+    operator = ""
+    total = 0
+    while i > -1:
+        nums.append("")
+        for j in range(rowcount):
+            if j == rowcount-1:
+                operator = getchar(filename, rowlength, j, i)
+            else:
+                nums[-1] = nums[-1] + getchar(filename, rowlength, j, i)
+        i -= 1
+        
+        if operator == "+" or operator == "*":
+            liststrtoint(nums)
+            total += listoperation(nums, operator)
+            nums.clear()
+            i -= 1
+
+    print(f"The grand total is {total}.")
 
 def test():
     pass
