@@ -45,7 +45,37 @@ def partone(filename):
     print(f"Number of available ingredient ids that are fresh is {fresh}.")
 
 def parttwo(filename):
-    pass
+    startsandends = getstartandendranges(filename)
+    sortedintervals = sorted(zip(startsandends[0], startsandends[1]))
+    starts = list()
+    ends = list()
+    for interval in sortedintervals:
+        starts.append(interval[0])
+        ends.append(interval[1])
+
+    freshstarts = [starts[0]]
+    freshends = [ends[0]]
+    for i in range(1, len(starts)):
+        if freshstarts[-1] <= starts[i] and freshends[-1] >= ends[i]:
+            # Range within existing range
+            continue
+        elif freshstarts[-1] >= starts[i] and freshends[-1] <= ends[i]:
+            # Range encompasses existing range
+            freshstarts[-1] = starts[i]
+            freshends[-1] = ends[i]
+        elif freshends[-1]+1 >= starts[i]:
+            # Ranges are next to each other or ranges overlap
+            freshends[-1] = ends[i]
+        else:
+            # Ranges are separate
+            freshstarts.append(starts[i])
+            freshends.append(ends[i])
+
+    freshids = 0
+    for s, e in zip(freshstarts, freshends):
+        # print(f"{s} {e}")
+        freshids += e-s+1
+    print(f"Number of available ingredient ids that are fresh is {freshids}.")
 
 def test():
     pass
