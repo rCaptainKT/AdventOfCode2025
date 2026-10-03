@@ -84,8 +84,25 @@ def partone(filename, pairs_to_connect):
     answer = circuitlengths[-1]*circuitlengths[-2]*circuitlengths[-3]
     print(f"The value obtained from multiplying the sizes of the three largest circuits is {answer}.")
 
+def findfinalcircuitconnection(boxes, distances):
+    circuits = [[key] for key in boxes.keys()]
+    for i in range(len(distances)):
+        ids = getdistanceboxids(distances[i][0])
+        makecircuit(ids[0], ids[1], circuits)
+
+        if len(circuits) == 1:
+            return (ids[0], ids[1])
+
+    return None
+
 def parttwo(filename):
-    pass
+    boxes = getboxes(filename)
+    distances = calculatedistances(boxes)
+    finalcircuitconnection = findfinalcircuitconnection(boxes, distances)
+    answer = None
+    if finalcircuitconnection:
+        answer = boxes[finalcircuitconnection[0]][0]*boxes[finalcircuitconnection[1]][0]
+    print(f"The value obtained from multiplying the sizes of the three largest circuits is {answer}.")
 
 def test():
     pass
